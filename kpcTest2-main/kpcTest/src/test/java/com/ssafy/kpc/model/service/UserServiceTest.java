@@ -1,6 +1,6 @@
 package com.ssafy.kpc.model.service;
 
-import com.ssafy.kpc.model.dto.User;
+import com.ssafy.kpc.Entity.User;
 import com.ssafy.kpc.model.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

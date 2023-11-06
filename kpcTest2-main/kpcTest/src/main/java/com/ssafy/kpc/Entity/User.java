@@ -1,4 +1,4 @@
-package com.ssafy.kpc.model.dto;
+package com.ssafy.kpc.Entity;
 
 
 import lombok.Getter;

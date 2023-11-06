@@ -1,12 +1,10 @@
 package com.ssafy.kpc.model.service;
 
-import com.ssafy.kpc.model.dto.User;
+import com.ssafy.kpc.Entity.User;
 import com.ssafy.kpc.model.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Member;
 import java.util.List;
 
 

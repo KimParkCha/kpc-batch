@@ -1,6 +1,6 @@
 package com.ssafy.kpc.model.repository;
 
-import com.ssafy.kpc.model.dto.User;
+import com.ssafy.kpc.Entity.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
