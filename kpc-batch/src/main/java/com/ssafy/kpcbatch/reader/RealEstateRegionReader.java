@@ -3,7 +3,7 @@ package com.ssafy.kpcbatch.reader;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.kpcbatch.dto.Region;
+import com.ssafy.kpcbatch.dto.RegionDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.NonTransientResourceException;
@@ -16,8 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.lang.reflect.Type;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +24,7 @@ import java.util.Map;
 public class RealEstateRegionReader implements ItemReader {
     private final String apiUrl;
     private final RestTemplate restTemplate;
-    private List<Region> regions;
+    private List<RegionDto> regionDtos;
 
     public RealEstateRegionReader(String apiUrl, RestTemplate restTemplate) {
         this.apiUrl = apiUrl;
@@ -36,12 +35,12 @@ public class RealEstateRegionReader implements ItemReader {
     public Object read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
         log.info("Reading the information of the next book");
 
-        regions = fetchRegionDataFromAPI(5000000000l);
+        regionDtos = fetchRegionDataFromAPI(5000000000l);
 
-        return regions;
+        return regionDtos;
     }
 
-    private List<Region> fetchRegionDataFromAPI(Long cortarNo) throws JsonProcessingException {
+    private List<RegionDto> fetchRegionDataFromAPI(Long cortarNo) throws JsonProcessingException {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", "application/json");
 
@@ -58,11 +57,8 @@ public class RealEstateRegionReader implements ItemReader {
         Map<String, Object> responseObject = objectMapper.readValue(response.getBody(),
                 new TypeReference<Map<String, Object>>() {});
         log.info("receive Data : {}", responseObject.toString());
-        Map<String, Object> responseProperty = (Map<String, Object>) responseObject.get("regionList");
-        Map<String, Object> itemsProperty = (Map<String, Object>) responseProperty.get("regionList");
-        List<Region> regionList = objectMapper.readValue(responseProperty.toString(), new TypeReference<List<Region>>(){});
-
-        return regionList;
+        ArrayList<RegionDto> regionDtoList = (ArrayList<RegionDto>) responseObject.get("regionList");
+        return regionDtoList;
     }
 
 }

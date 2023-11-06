@@ -1,6 +1,7 @@
 package com.ssafy.kpcbatch.config;
 
-import com.ssafy.kpcbatch.dto.Region;
+import com.ssafy.kpcbatch.dto.RegionDto;
+import com.ssafy.kpcbatch.entity.Region;
 import com.ssafy.kpcbatch.reader.RealEstateRegionReader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,9 +39,9 @@ public class RestAPIJobConfiguration {
 
     @Bean
     @JobScope
-    public Step collectStep(ItemReader<Region> reader, JpaItemWriter<Region> writer) {
+    public Step collectStep(ItemReader<RegionDto> reader, JpaItemWriter<Region> writer) {
         return stepBuilderFactory.get("collectStep")
-                .<Region, Region>chunk(10)
+                .<RegionDto, Region>chunk(10)
                 .reader(reader)
                 .processor(jpaItemProcessor())
                 .writer(writer)
@@ -48,20 +49,22 @@ public class RestAPIJobConfiguration {
     }
 
     @Bean
-    public ItemReader<Region> reader(Environment environment, RestTemplate restTemplate) {
+    public ItemReader<RegionDto> reader(Environment environment, RestTemplate restTemplate) {
         // Rest API 로 데이터를 가져온다.
         return new RealEstateRegionReader(environment.getRequiredProperty(PROPERTY_REST_API_URL),
                 restTemplate);
     }
 
     @Bean
-    public ItemProcessor<Region, Region> jpaItemProcessor() {
+    public ItemProcessor<RegionDto, Region> jpaItemProcessor() {
         // 가져온 데이터를 적절히 가공해준다.
-//        return region -> Region.builder()
-//                .cortarNo(region.getCortarNo())
-//                .cortarName(region.getCortarName())
-//                .build();
-        return null;
+        return regionDto -> Region.builder()
+                .cortarNo(regionDto.getCortarNo())
+                .cortarName(regionDto.getCortarName())
+                .centerLat(regionDto.getCenterLat())
+                .centerLon(regionDto.getCenterLon())
+                .cortarType(regionDto.getCortarType())
+                .build();
     }
 
     @Bean
