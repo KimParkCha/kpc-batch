@@ -15,7 +15,6 @@ import javax.persistence.Table;
 @Table(name="region")
 public class Region {
     @Id
-    @GeneratedValue
     Long cortarNo;
     Double centerLat;
     Double centerLon;

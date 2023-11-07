@@ -37,7 +37,7 @@ public class RealEstateRegionReader implements ItemReader {
         log.info("Reading the information of the region data");
 
         if (regionDataIsNotInitialized()) { // 초기 데이터가 없다면 호출
-            regionDtos = fetchRegionDataFromAPI(5000000000l);
+            regionDtos = fetchRegionDataFromAPI();
         }
 
         RegionDto nextRegion = null;
@@ -55,12 +55,13 @@ public class RealEstateRegionReader implements ItemReader {
         return regionDtos == null;
     }
 
-    private List<RegionDto> fetchRegionDataFromAPI(Long cortarNo) throws JsonProcessingException {
+    private List<RegionDto> fetchRegionDataFromAPI() throws JsonProcessingException {
+        List<RegionDto> ls = new ArrayList<>();
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", "application/json");
 
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
-                .queryParam("cortarNo", cortarNo);
+                .queryParam("cortarNo", "0000000000");
 
         log.info("Fetching region data from an external API by using the url: {}", uriBuilder.toUriString());
 
@@ -72,9 +73,28 @@ public class RealEstateRegionReader implements ItemReader {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         RegionListDto regionListDto = objectMapper.readValue(response.getBody(), RegionListDto.class);
 
-        log.info("receive Data : {}", regionListDto.getRegionList());
+//        log.info("receive 시 Data : {}", regionListDto.getRegionList());
+        for (RegionDto region: regionListDto.getRegionList()) {
+            ls.add(region);
+            uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
+                    .queryParam("cortarNo", region.getCortarNo());
+            response = restTemplate.exchange(uriBuilder.toUriString(), HttpMethod.GET,
+                    new HttpEntity<>(headers), String.class);
+            RegionListDto regionListDto2 = objectMapper.readValue(response.getBody(), RegionListDto.class);
+//            log.info("receive 군 Data : {}", regionListDto2.getRegionList());
+            for (RegionDto region2 : regionListDto2.getRegionList()) {
+                ls.add(region2);
+                uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
+                        .queryParam("cortarNo", region2.getCortarNo());
+                response = restTemplate.exchange(uriBuilder.toUriString(), HttpMethod.GET,
+                        new HttpEntity<>(headers), String.class);
+                RegionListDto regionListDto3 = objectMapper.readValue(response.getBody(), RegionListDto.class);
+//                log.info("receive 구 Data : {}", regionListDto3.getRegionList());
+                ls.addAll(regionListDto3.getRegionList());
 
-        return regionListDto.getRegionList();
+            }
+        }
+        return ls;
     }
 
 }
