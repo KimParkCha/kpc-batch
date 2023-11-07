@@ -2,7 +2,6 @@ package com.ssafy.kpcbatch.config;
 
 import com.ssafy.kpcbatch.dto.RegionDto;
 import com.ssafy.kpcbatch.entity.Region;
-import com.ssafy.kpcbatch.processor.ListItemProcessor;
 import com.ssafy.kpcbatch.reader.RealEstateRegionReader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,12 +19,11 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.client.RestTemplate;
 
 import javax.persistence.EntityManagerFactory;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
-public class RestAPIJobConfiguration {
+public class RegionAPIJobConfiguration {
     private static final String PROPERTY_REST_API_URL = "rest.api.url"; // api 요청 url
 
     private final JobBuilderFactory jobBuilderFactory;
@@ -33,8 +31,8 @@ public class RestAPIJobConfiguration {
     private final EntityManagerFactory entityManagerFactory;
 
     @Bean
-    public Job simpleJob(Step collectStep) { // 이런식으로 의존성 주입을 받을 수도 있구나
-        return jobBuilderFactory.get("simpleJob")
+    public Job regionJob(Step collectStep) { // 이런식으로 의존성 주입을 받을 수도 있구나
+        return jobBuilderFactory.get("regionJob")
 //                .preventRestart()
                 .start(collectStep)
                 .build();
@@ -42,25 +40,25 @@ public class RestAPIJobConfiguration {
 
     @Bean
     @JobScope
-    public Step collectStep(ItemReader<RegionDto> reader, JpaItemWriter<Region> writer) {
-        return stepBuilderFactory.get("collectStep")
-                .allowStartIfComplete(true)
-                .<RegionDto, Region>chunk(10)
+    public Step regionStep(ItemReader<RegionDto> reader, JpaItemWriter<Region> writer) {
+        return stepBuilderFactory.get("regionStep")
+//                .allowStartIfComplete(true) // Complete 상태가 되었어도 다시 실행
+                .<RegionDto, Region>chunk(1)
                 .reader(reader)
-                .processor(jpaItemProcessor())
+                .processor(regionProcessor())
                 .writer(writer)
                 .build();
     }
 
     @Bean
-    public ItemReader<RegionDto> reader(Environment environment, RestTemplate restTemplate) {
+    public ItemReader<RegionDto> regionReader(Environment environment, RestTemplate restTemplate) {
         // Rest API 로 데이터를 가져온다.
         return new RealEstateRegionReader(environment.getRequiredProperty(PROPERTY_REST_API_URL),
                 restTemplate);
     }
 
     @Bean
-    public ItemProcessor<RegionDto, Region> jpaItemProcessor() {
+    public ItemProcessor<RegionDto, Region> regionProcessor() {
         // 가져온 데이터를 적절히 가공해준다.
         return regionDto -> Region.builder()
                 .cortarNo(regionDto.getCortarNo())
@@ -72,7 +70,7 @@ public class RestAPIJobConfiguration {
     }
 
     @Bean
-    public JpaItemWriter<Region> writer() {
+    public JpaItemWriter<Region> regionWriter() {
         // 데이터베이스에 저장한다.
         JpaItemWriter<Region> jpaItemWriter = new JpaItemWriter<>();
         jpaItemWriter.setEntityManagerFactory(entityManagerFactory);
