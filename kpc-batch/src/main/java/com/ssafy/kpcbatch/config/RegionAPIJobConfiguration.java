@@ -31,10 +31,10 @@ public class RegionAPIJobConfiguration {
     private final EntityManagerFactory entityManagerFactory;
 
     @Bean
-    public Job regionJob(Step collectStep) { // 이런식으로 의존성 주입을 받을 수도 있구나
+    public Job regionJob(Step regionStep) { // 이런식으로 의존성 주입을 받을 수도 있구나
         return jobBuilderFactory.get("regionJob")
-//                .preventRestart()
-                .start(collectStep)
+                .preventRestart()
+                .start(regionStep)
                 .build();
     }
 
