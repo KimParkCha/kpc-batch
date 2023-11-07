@@ -2,6 +2,7 @@ package com.ssafy.kpcbatch.config;
 
 import com.ssafy.kpcbatch.dto.RegionDto;
 import com.ssafy.kpcbatch.entity.Region;
+import com.ssafy.kpcbatch.processor.ListItemProcessor;
 import com.ssafy.kpcbatch.reader.RealEstateRegionReader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.client.RestTemplate;
 
 import javax.persistence.EntityManagerFactory;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,6 +35,7 @@ public class RestAPIJobConfiguration {
     @Bean
     public Job simpleJob(Step collectStep) { // 이런식으로 의존성 주입을 받을 수도 있구나
         return jobBuilderFactory.get("simpleJob")
+//                .preventRestart()
                 .start(collectStep)
                 .build();
     }
@@ -41,6 +44,7 @@ public class RestAPIJobConfiguration {
     @JobScope
     public Step collectStep(ItemReader<RegionDto> reader, JpaItemWriter<Region> writer) {
         return stepBuilderFactory.get("collectStep")
+                .allowStartIfComplete(true)
                 .<RegionDto, Region>chunk(10)
                 .reader(reader)
                 .processor(jpaItemProcessor())

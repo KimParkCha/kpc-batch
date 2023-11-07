@@ -10,6 +10,8 @@ import javax.persistence.Table;
 @Entity
 @Builder
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name="region")
 public class Region {
     @Id

@@ -1,9 +1,10 @@
 package com.ssafy.kpcbatch.reader;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.kpcbatch.dto.RegionDto;
+import com.ssafy.kpcbatch.dto.RegionListDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.NonTransientResourceException;
@@ -25,7 +26,7 @@ public class RealEstateRegionReader implements ItemReader {
     private final String apiUrl;
     private final RestTemplate restTemplate;
     private List<RegionDto> regionDtos;
-
+    private int regionIndex;
     public RealEstateRegionReader(String apiUrl, RestTemplate restTemplate) {
         this.apiUrl = apiUrl;
         this.restTemplate = restTemplate;
@@ -33,11 +34,25 @@ public class RealEstateRegionReader implements ItemReader {
 
     @Override
     public Object read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
-        log.info("Reading the information of the next book");
+        log.info("Reading the information of the region data");
 
-        regionDtos = fetchRegionDataFromAPI(5000000000l);
+        if (regionDataIsNotInitialized()) { // 초기 데이터가 없다면 호출
+            regionDtos = fetchRegionDataFromAPI(5000000000l);
+        }
 
-        return regionDtos;
+        RegionDto nextRegion = null;
+
+        if (regionIndex < regionDtos.size()) {
+            nextRegion = regionDtos.get(regionIndex);
+            regionIndex += 1;
+            if (regionIndex > regionDtos.size()) {
+                return null;
+            }
+        }
+        return nextRegion;
+    }
+    boolean regionDataIsNotInitialized() {
+        return regionDtos == null;
     }
 
     private List<RegionDto> fetchRegionDataFromAPI(Long cortarNo) throws JsonProcessingException {
@@ -47,18 +62,19 @@ public class RealEstateRegionReader implements ItemReader {
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
                 .queryParam("cortarNo", cortarNo);
 
-        log.info("Fetching book data from an external API by using the url: {}", uriBuilder.toUriString());
+        log.info("Fetching region data from an external API by using the url: {}", uriBuilder.toUriString());
 
         ResponseEntity<String> response = restTemplate.exchange(uriBuilder.toUriString(), HttpMethod.GET,
                 new HttpEntity<>(headers), String.class);
 
         // Json parsing 하는 부분... 근데 이게 최선인가 싶네
         ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> responseObject = objectMapper.readValue(response.getBody(),
-                new TypeReference<Map<String, Object>>() {});
-        log.info("receive Data : {}", responseObject.toString());
-        ArrayList<RegionDto> regionDtoList = (ArrayList<RegionDto>) responseObject.get("regionList");
-        return regionDtoList;
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        RegionListDto regionListDto = objectMapper.readValue(response.getBody(), RegionListDto.class);
+
+        log.info("receive Data : {}", regionListDto.getRegionList());
+
+        return regionListDto.getRegionList();
     }
 
 }
