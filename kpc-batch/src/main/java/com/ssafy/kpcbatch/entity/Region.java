@@ -12,6 +12,7 @@ import javax.persistence.Table;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 @Table(name="region")
 public class Region {
     @Id
