@@ -34,7 +34,7 @@ public class RealEstateRegionReader implements ItemReader {
 
     @Override
     public Object read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
-        log.info("Reading the information of the region data");
+//        log.info("Reading the information of the region data");
 
         if (regionDataIsNotInitialized()) { // 초기 데이터가 없다면 호출
             regionDtos = fetchRegionDataFromAPI();
