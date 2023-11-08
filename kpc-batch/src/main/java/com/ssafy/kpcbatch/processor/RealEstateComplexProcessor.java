@@ -1,4 +1,4 @@
-package com.ssafy.kpcbatch.reader;
+package com.ssafy.kpcbatch.processor;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,13 +16,14 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
-public class RealEstateComplexReader implements ItemProcessor<Region, List<Complex>> {
+public class RealEstateComplexProcessor implements ItemProcessor<Region, List<Complex>> {
     private final RestTemplate restTemplate;
     private final String apiUrl;
-    public RealEstateComplexReader(String apiUrl, RestTemplate restTemplate) {
+    public RealEstateComplexProcessor(String apiUrl, RestTemplate restTemplate) {
         this.apiUrl = apiUrl;
         this.restTemplate = restTemplate;
     }
@@ -30,7 +31,6 @@ public class RealEstateComplexReader implements ItemProcessor<Region, List<Compl
     public List<Complex> process(Region item) throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", "application/json");
-
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
                 .queryParam("cortarNo", item.getCortarNo())
                 .queryParam("realEstateType", "APT")
