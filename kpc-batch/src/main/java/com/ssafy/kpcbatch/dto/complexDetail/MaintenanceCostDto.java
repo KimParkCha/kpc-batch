@@ -1,4 +1,4 @@
-package com.ssafy.kpcbatch.dto;
+package com.ssafy.kpcbatch.dto.complexDetail;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
@@ -9,11 +9,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RegionDto {
-    Long cortarNo;
-    Double centerLat;
-    Double centerLon;
-    String cortarName;
-    String cortarType;
-
+public class MaintenanceCostDto {
+    String basisYearMonth;
+    String totalPrice;
 }

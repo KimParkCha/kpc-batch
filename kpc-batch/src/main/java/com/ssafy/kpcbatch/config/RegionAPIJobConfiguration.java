@@ -1,8 +1,8 @@
 package com.ssafy.kpcbatch.config;
 
-import com.ssafy.kpcbatch.dto.RegionDto;
-import com.ssafy.kpcbatch.entity.Region;
-import com.ssafy.kpcbatch.reader.RealEstateRegionReader;
+import com.ssafy.kpcbatch.dto.region.RegionDto;
+import com.ssafy.kpcbatch.entity.region.Region;
+import com.ssafy.kpcbatch.reader.RegionReader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -53,7 +53,7 @@ public class RegionAPIJobConfiguration {
     @Bean
     public ItemReader<RegionDto> regionReader(Environment environment, RestTemplate restTemplate) {
         // Rest API 로 데이터를 가져온다.
-        return new RealEstateRegionReader(environment.getRequiredProperty(PROPERTY_REST_API_URL),
+        return new RegionReader(environment.getRequiredProperty(PROPERTY_REST_API_URL),
                 restTemplate);
     }
 

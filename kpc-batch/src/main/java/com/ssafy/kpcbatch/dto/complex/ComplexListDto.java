@@ -1,4 +1,4 @@
-package com.ssafy.kpcbatch.dto;
+package com.ssafy.kpcbatch.dto.complex;
 
 import lombok.Getter;
 import lombok.Setter;

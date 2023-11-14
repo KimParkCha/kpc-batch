@@ -1,8 +1,8 @@
 package com.ssafy.kpcbatch.config;
 
-import com.ssafy.kpcbatch.entity.Complex;
-import com.ssafy.kpcbatch.entity.Region;
-import com.ssafy.kpcbatch.processor.RealEstateComplexProcessor;
+import com.ssafy.kpcbatch.dto.complexDetail.ComplexDetailsDto;
+import com.ssafy.kpcbatch.entity.complex.Complex;
+import com.ssafy.kpcbatch.processor.ComplexProcessor;
 import com.ssafy.kpcbatch.writer.JpaItemListWriter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,36 +26,35 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
-public class RealEstateAPIJobConfiguration {
-    private String restUrl;
+public class ComplexDetailAPIJobConfiguration {
+    private String restUrl = "https://new.land.naver.com/api/regions/complexes";
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
     @Bean
-    public Job complexJob(Step complexStep) { // 이런식으로 의존성 주입을 받을 수도 있구나
-        return jobBuilderFactory.get("complexJob")
+    public Job complexDetailJob(Step complexDetailStep) { // 이런식으로 의존성 주입을 받을 수도 있구나
+        return jobBuilderFactory.get("complexDetailJob")
 //                .preventRestart()
-                .start(complexStep())
+                .start(complexDetailStep())
                 .build();
     }
 
     @JobScope
-    public Step complexStep() {
-        return stepBuilderFactory.get("complexStep")
+    public Step complexDetailStep() {
+        return stepBuilderFactory.get("complexDetailStep")
                 .allowStartIfComplete(true)
-                .<Region, List<Complex>>chunk(1)
-                .reader(complexReader())
+                .<Long, List<Complex>>chunk(1)
+                .reader(complexDetailReader())
                 .processor(complexProcessor())
                 .writer(complexListWriter())
                 .build();
     }
 
     @StepScope
-    public JpaPagingItemReader<? extends Region> complexReader() {
+    public JpaPagingItemReader<? extends Long> complexDetailReader() {
         // Rest API 로 데이터를 가져온다.
-        restUrl = "https://new.land.naver.com/api/regions/complexes";
-        return new JpaPagingItemReaderBuilder<Region>()
-                .queryString("select r from Region r where cortarType='sec'")
+        return new JpaPagingItemReaderBuilder<Long>()
+                .queryString("select complexNo from Complex co")
                 .entityManagerFactory(entityManagerFactory)
                 .name("jdbcCursorItemReader")
                 .pageSize(1)
@@ -63,9 +62,9 @@ public class RealEstateAPIJobConfiguration {
     }
 
     @StepScope
-    public ItemProcessor<Region, List<Complex>>complexProcessor() {
+    public ItemProcessor<Long, ComplexDetailsDto> complexProcessor() {
         // 가져온 데이터를 적절히 가공해준다.
-        return new RealEstateComplexProcessor(restUrl, new RestTemplate());
+        return new ComplexProcessor(restUrl, new RestTemplate());
     }
     @StepScope
     public JpaItemListWriter<Complex> complexListWriter() {

@@ -2,10 +2,10 @@ package com.ssafy.kpcbatch.processor;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.kpcbatch.dto.ComplexDto;
-import com.ssafy.kpcbatch.dto.ComplexListDto;
-import com.ssafy.kpcbatch.entity.Complex;
-import com.ssafy.kpcbatch.entity.Region;
+import com.ssafy.kpcbatch.dto.complex.ComplexDto;
+import com.ssafy.kpcbatch.dto.complex.ComplexListDto;
+import com.ssafy.kpcbatch.entity.complex.Complex;
+import com.ssafy.kpcbatch.entity.region.Region;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.http.HttpEntity;
@@ -16,14 +16,13 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
-public class RealEstateComplexProcessor implements ItemProcessor<Region, List<Complex>> {
+public class ComplexProcessor implements ItemProcessor<Region, List<Complex>> {
     private final RestTemplate restTemplate;
     private final String apiUrl;
-    public RealEstateComplexProcessor(String apiUrl, RestTemplate restTemplate) {
+    public ComplexProcessor(String apiUrl, RestTemplate restTemplate) {
         this.apiUrl = apiUrl;
         this.restTemplate = restTemplate;
     }

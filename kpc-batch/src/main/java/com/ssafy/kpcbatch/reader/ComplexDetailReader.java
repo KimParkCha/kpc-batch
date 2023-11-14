@@ -3,8 +3,8 @@ package com.ssafy.kpcbatch.reader;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.kpcbatch.dto.RegionDto;
-import com.ssafy.kpcbatch.dto.RegionListDto;
+import com.ssafy.kpcbatch.dto.region.RegionDto;
+import com.ssafy.kpcbatch.dto.region.RegionListDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.NonTransientResourceException;
@@ -19,15 +19,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
-public class RealEstateRegionReader implements ItemReader {
+public class RegionReader implements ItemReader {
     private final String apiUrl;
     private final RestTemplate restTemplate;
     private List<RegionDto> regionDtos;
     private int regionIndex;
-    public RealEstateRegionReader(String apiUrl, RestTemplate restTemplate) {
+    public RegionReader(String apiUrl, RestTemplate restTemplate) {
         this.apiUrl = apiUrl;
         this.restTemplate = restTemplate;
     }

@@ -1,4 +1,4 @@
-package com.ssafy.kpcbatch.dto;
+package com.ssafy.kpcbatch.dto.region;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,7 +1,7 @@
 package com.ssafy.kpcbatch.processor;
 
-import com.ssafy.kpcbatch.dto.RegionDto;
-import com.ssafy.kpcbatch.entity.Region;
+import com.ssafy.kpcbatch.dto.region.RegionDto;
+import com.ssafy.kpcbatch.entity.region.Region;
 import org.springframework.batch.item.ItemProcessor;
 
 import java.util.ArrayList;

@@ -1,15 +1,22 @@
-package com.ssafy.kpcbatch.dto;
+package com.ssafy.kpcbatch.entity.complex;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Getter
-@Setter
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Builder
 @ToString
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class ComplexDto {
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name="complex")
+public class Complex {
+    @Id
     Long complexNo;
     String complexName;
     Long cortarNo;

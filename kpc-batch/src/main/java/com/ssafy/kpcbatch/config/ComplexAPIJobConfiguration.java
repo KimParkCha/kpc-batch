@@ -1,8 +1,8 @@
 package com.ssafy.kpcbatch.config;
 
-import com.ssafy.kpcbatch.entity.Complex;
-import com.ssafy.kpcbatch.entity.Region;
-import com.ssafy.kpcbatch.processor.RealEstateComplexProcessor;
+import com.ssafy.kpcbatch.entity.complex.Complex;
+import com.ssafy.kpcbatch.entity.region.Region;
+import com.ssafy.kpcbatch.processor.ComplexProcessor;
 import com.ssafy.kpcbatch.writer.JpaItemListWriter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,6 @@ import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder;
@@ -66,7 +65,7 @@ public class ComplexAPIJobConfiguration {
     @StepScope
     public ItemProcessor<Region, List<Complex>>complexProcessor() {
         // 가져온 데이터를 적절히 가공해준다.
-        return new RealEstateComplexProcessor(restUrl, new RestTemplate());
+        return new ComplexProcessor(restUrl, new RestTemplate());
     }
     @StepScope
     public JpaItemListWriter<Complex> complexListWriter() {

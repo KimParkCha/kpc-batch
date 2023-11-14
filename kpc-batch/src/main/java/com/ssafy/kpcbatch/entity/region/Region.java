@@ -1,4 +1,4 @@
-package com.ssafy.kpcbatch.entity;
+package com.ssafy.kpcbatch.entity.region;
 
 import lombok.*;
 
