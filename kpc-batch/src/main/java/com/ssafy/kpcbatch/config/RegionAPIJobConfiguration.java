@@ -42,7 +42,7 @@ public class RegionAPIJobConfiguration {
     @JobScope
     public Step regionStep(ItemReader<RegionDto> reader, JpaItemWriter<Region> writer) {
         return stepBuilderFactory.get("regionStep")
-//                .allowStartIfComplete(true) // Complete 상태가 되었어도 다시 실행
+                .allowStartIfComplete(true) // Complete 상태가 되었어도 다시 실행
                 .<RegionDto, Region>chunk(1)
                 .reader(reader)
                 .processor(regionProcessor())
