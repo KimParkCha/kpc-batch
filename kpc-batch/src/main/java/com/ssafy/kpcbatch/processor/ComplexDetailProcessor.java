@@ -2,9 +2,7 @@ package com.ssafy.kpcbatch.processor;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.kpcbatch.dto.complex.ComplexDto;
-import com.ssafy.kpcbatch.dto.complex.ComplexListDto;
-import com.ssafy.kpcbatch.entity.complex.Complex;
+import com.ssafy.kpcbatch.dto.complexDetail.ComplexDetailsDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.http.HttpEntity;
@@ -14,11 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
-public class ComplexDetailProcessor implements ItemProcessor<Long, List<Complex>> {
+public class ComplexDetailProcessor implements ItemProcessor<Long, ComplexDetailsDto> {
     private final RestTemplate restTemplate;
     private final String apiUrl;
     public ComplexDetailProcessor(String apiUrl, RestTemplate restTemplate) {
@@ -26,11 +22,11 @@ public class ComplexDetailProcessor implements ItemProcessor<Long, List<Complex>
         this.restTemplate = restTemplate;
     }
     @Override
-    public List<Complex> process(Long item) throws Exception {
+    public ComplexDetailsDto process(Long item) throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", "application/json");
-        headers.set("Authorization", "");
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl+"/"+item);
+        headers.set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlJFQUxFU1RBVEUiLCJpYXQiOjE2OTk5MjY3OTUsImV4cCI6MTY5OTkzNzU5NX0.rnemVzmmKdbPVI3XhnXuq4vNv_30_8R6vcMkkOavRrI");
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl+"/"+String.valueOf(item));
 
         log.info("Fetching region data from an external API by using the url: {}", uriBuilder.toUriString());
 
@@ -39,31 +35,9 @@ public class ComplexDetailProcessor implements ItemProcessor<Long, List<Complex>
 
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        ComplexListDto complexListDto = objectMapper.readValue(response.getBody(), ComplexListDto.class);
-        List<Complex> list = new ArrayList<>();
-        for (ComplexDto complexDto: complexListDto.getComplexList()) {
-            Complex complex = Complex.builder()
-                    .complexNo(complexDto.getComplexNo())
-                    .complexName(complexDto.getComplexName())
-                    .cortarNo(complexDto.getCortarNo())
-                    .realEstateTypeCode(complexDto.getRealEstateTypeCode())
-                    .realEstateTypeName(complexDto.getRealEstateTypeName())
-                    .detailAddress(complexDto.getDetailAddress())
-                    .latitude(complexDto.getLatitude())
-                    .longitude(complexDto.getLongitude())
-                    .totalHouseholdCount(complexDto.getTotalHouseholdCount())
-                    .totalBuildingCount(complexDto.getTotalBuildingCount())
-                    .highFloor(complexDto.getHighFloor())
-                    .lowFloor(complexDto.getLowFloor())
-                    .useApproveYmd(complexDto.getUseApproveYmd())
-                    .dealCount(complexDto.getDealCount())
-                    .leaseCount(complexDto.getLeaseCount())
-                    .rentCount(complexDto.getRentCount())
-                    .shirtTermRentCount(complexDto.getShirtTermRentCount())
-                    .cortarAddress(complexDto.getCortarAddress())
-                    .build();
-            list.add(complex);
-        }
-        return list;
+        ComplexDetailsDto complexDetailsDto = objectMapper.readValue(response.getBody(), ComplexDetailsDto.class);
+
+        log.info("receivedData: {}", complexDetailsDto);
+        return complexDetailsDto;
     }
 }

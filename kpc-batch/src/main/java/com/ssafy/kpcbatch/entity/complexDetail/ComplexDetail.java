@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -12,7 +11,7 @@ import javax.persistence.Table;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="complexDetail")
+@Table(name="complexdetail")
 public class ComplexDetail {
     @Id
     Long complexNo;
@@ -56,6 +55,4 @@ public class ComplexDetail {
     String address;
     String roadAddressPrefix;
     String roadZipCode;
-    @OneToMany
-
 }
