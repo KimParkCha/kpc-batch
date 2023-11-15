@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="complexdetail")
+@Table(name="complexDetail")
 public class ComplexDetail {
     @Id
     Long complexNo;
@@ -33,7 +33,7 @@ public class ComplexDetail {
     Integer etcLeaseHouseholdCount;
     Integer highFloor;
     Integer lowFloor;
-    String useApprovueYmd;
+    String useApproveYmd;
     Integer totalDongCount;
     Float maxSupplyArea;
     Float minSupplyArea;

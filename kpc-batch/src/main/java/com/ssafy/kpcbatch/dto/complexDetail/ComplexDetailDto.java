@@ -10,9 +10,9 @@ import lombok.ToString;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ComplexDetailDto {
-    Long complexNo;
+    String complexNo;
     String complexName;
-    Long cortarNo;
+    String cortarNo;
     String realEstateTypeCode;
     String realEstateTypeName;
     String detailAddress;
@@ -29,7 +29,7 @@ public class ComplexDetailDto {
     Integer etcLeaseHouseholdCount;
     Integer highFloor;
     Integer lowFloor;
-    String useApprovueYmd;
+    String useApproveYmd;
     Integer totalDongCount;
     Float maxSupplyArea;
     Float minSupplyArea;
@@ -41,7 +41,7 @@ public class ComplexDetailDto {
     String batlRatio;
     String btlRatio;
     Integer parkingPossibleCount;
-    float parkingCountByHousehold;
+    Float parkingCountByHousehold;
     String constructionCompanyName;
     String heatMethodTypeCode;
     String heatFuelTypeCode;
