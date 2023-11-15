@@ -16,9 +16,9 @@ import javax.persistence.Table;
 @Table(name="region")
 public class Region {
     @Id
-    Long cortarNo;
-    Double centerLat;
-    Double centerLon;
-    String cortarName;
-    String cortarType;
+    Long cortarNo; // 법정동코드
+    Double centerLat; // 위도
+    Double centerLon; // 경도
+    String cortarName; // 법정동이름
+    String cortarType; // 법정동타입
 }

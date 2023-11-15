@@ -1,9 +1,9 @@
 package com.ssafy.kpcbatch.config;
 
 import com.ssafy.kpcbatch.dto.complexDetail.ComplexDetailsDto;
-import com.ssafy.kpcbatch.entity.complex.Complex;
-import com.ssafy.kpcbatch.processor.ComplexProcessor;
-import com.ssafy.kpcbatch.writer.JpaItemListWriter;
+import com.ssafy.kpcbatch.processor.ComplexDetailProcessor;
+import com.ssafy.kpcbatch.writer.ComplexDetailWriter;
+import com.ssafy.kpcbatch.writer.ComplexPyeongDetailWriter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -13,24 +13,31 @@ import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder;
+import org.springframework.batch.item.support.CompositeItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
 public class ComplexDetailAPIJobConfiguration {
-    private String restUrl = "https://new.land.naver.com/api/regions/complexes";
+    private String restUrl = "https://new.land.naver.com/api/complexes";
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
+    private final DataSource dataSource;
+
     @Bean
     public Job complexDetailJob(Step complexDetailStep) { // 이런식으로 의존성 주입을 받을 수도 있구나
         return jobBuilderFactory.get("complexDetailJob")
@@ -43,10 +50,10 @@ public class ComplexDetailAPIJobConfiguration {
     public Step complexDetailStep() {
         return stepBuilderFactory.get("complexDetailStep")
                 .allowStartIfComplete(true)
-                .<Long, List<Complex>>chunk(1)
+                .<Long, ComplexDetailsDto>chunk(1)
                 .reader(complexDetailReader())
-                .processor(complexProcessor())
-                .writer(complexListWriter())
+                .processor(complexDetailProcessor())
+                .writer(compositeComplexDetailItemWriter())
                 .build();
     }
 
@@ -56,21 +63,32 @@ public class ComplexDetailAPIJobConfiguration {
         return new JpaPagingItemReaderBuilder<Long>()
                 .queryString("select complexNo from Complex co")
                 .entityManagerFactory(entityManagerFactory)
-                .name("jdbcCursorItemReader")
+                .name("jdbcPagingItemReader")
                 .pageSize(1)
                 .build();
     }
 
     @StepScope
-    public ItemProcessor<Long, ComplexDetailsDto> complexProcessor() {
+    public ItemProcessor<Long, ComplexDetailsDto> complexDetailProcessor() {
         // 가져온 데이터를 적절히 가공해준다.
-        return new ComplexProcessor(restUrl, new RestTemplate());
+        return new ComplexDetailProcessor(restUrl, new RestTemplate());
     }
     @StepScope
-    public JpaItemListWriter<Complex> complexListWriter() {
-        final JpaItemWriter<Complex> itemListWriter = new JpaItemWriter<>();
-        itemListWriter.setEntityManagerFactory(entityManagerFactory);
+    public ItemWriter<? super ComplexDetailsDto> complexDetailWriter() {
+        final JpaItemWriter<ComplexDetailsDto> itemWriter = new JpaItemWriter<>();
+        itemWriter.setEntityManagerFactory(entityManagerFactory);
 
-        return new JpaItemListWriter<>(itemListWriter);
+        return new JpaItemWriter();
+    }
+
+    @StepScope
+    public CompositeItemWriter<ComplexDetailsDto> compositeComplexDetailItemWriter() {
+        List<ItemWriter> delegates = new ArrayList<>(1);
+        delegates.add(new ComplexDetailWriter(dataSource, new JdbcBatchItemWriter()));
+        delegates.add(new ComplexPyeongDetailWriter(dataSource, new JdbcBatchItemWriter()));
+
+        CompositeItemWriter compositeItemWriter = new CompositeItemWriter();
+        compositeItemWriter.setDelegates(delegates);
+        return compositeItemWriter;
     }
 }
