@@ -1,13 +1,12 @@
 package com.ssafy.kpcbatch.entity.complex;
 
+import com.ssafy.kpcbatch.entity.complexDetail.ComplexDetail;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Builder
@@ -35,4 +34,8 @@ public class Complex {
     int rentCount;
     int shirtTermRentCount;
     String cortarAddress;
+
+    @OneToOne
+    @JoinColumn(name = "complexNo")
+    private ComplexDetail complexDetail;
 }

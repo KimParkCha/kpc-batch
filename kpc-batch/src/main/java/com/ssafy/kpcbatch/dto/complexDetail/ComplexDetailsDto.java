@@ -13,6 +13,6 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ComplexDetailsDto {
     List<PhotoDto> photos;
-    ComplexDetailDto complexDetailDto;
-    List<ComplexPyeongDetailDto> complexPyeongDetailDtos;
+    ComplexDetailDto complexDetail;
+    List<ComplexPyeongDetailDto> complexPyeongDetailList;
 }

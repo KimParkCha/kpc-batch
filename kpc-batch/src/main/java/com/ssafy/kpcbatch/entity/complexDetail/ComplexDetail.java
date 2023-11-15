@@ -1,10 +1,11 @@
 package com.ssafy.kpcbatch.entity.complexDetail;
 
+import com.ssafy.kpcbatch.entity.complex.Complex;
 import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,6 +17,7 @@ import javax.persistence.Table;
 public class ComplexDetail {
     @Id
     private Long complexNo; // 아파트번호
+
     private String complexName; // 아파트명
     private Long cortarNo; // 법정동코드
     private String realEstateTypeCode; //
@@ -58,4 +60,6 @@ public class ComplexDetail {
     private String roadZipCode;
 
 
+    @OneToOne(mappedBy = "complexDetail")
+    Complex complex;
 }

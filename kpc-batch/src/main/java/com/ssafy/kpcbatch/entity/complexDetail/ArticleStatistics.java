@@ -5,7 +5,10 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 @Builder
@@ -14,7 +17,9 @@ import javax.persistence.Entity;
 @AllArgsConstructor
 public class ArticleStatistics {
 
+    @Id
     Integer pyeongNo;
+
     String dealCount;
     String leaseCount;
     String rentCount;
@@ -35,4 +40,6 @@ public class ArticleStatistics {
     String leasePricePerSpaceString;
     String leasePriceRateString;
 
+    @OneToOne(mappedBy = "articleStatistics")
+    ComplexPyeongDetail complexPyeongDetail;
 }

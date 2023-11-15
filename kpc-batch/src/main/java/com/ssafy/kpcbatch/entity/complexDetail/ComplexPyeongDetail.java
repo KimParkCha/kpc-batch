@@ -1,13 +1,11 @@
 package com.ssafy.kpcbatch.entity.complexDetail;
 
-import com.ssafy.kpcbatch.dto.complexDetail.ArticleStatisticsDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Builder
@@ -17,7 +15,9 @@ import javax.persistence.Table;
 @Table(name = "complexPyeongDetail")
 public class ComplexPyeongDetail {
 
+    @Id
     private Long pyeongNo;
+
     private Double supplyAreaDouble;
     private Double supplyArea;
     private int pyeongName;
@@ -29,6 +29,7 @@ public class ComplexPyeongDetail {
     private String realEstateTypeCode;
     private int exclusiveRate;
 
-    private ArticleStatistics articleStatistics; // 매매호가
-
+    @OneToOne
+    @JoinColumn(name = "pyeongNo")
+    ArticleStatistics articleStatistics; // 매매호가
 }

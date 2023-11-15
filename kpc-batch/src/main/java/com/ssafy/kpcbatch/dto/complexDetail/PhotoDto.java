@@ -13,7 +13,7 @@ import lombok.ToString;
 public class PhotoDto {
     Integer imageKey;
     String imageSrc;
-    Long imageId;
+    String imageId;
     String newOldGbn;
     String smallCategoryName;
     String explaination;
