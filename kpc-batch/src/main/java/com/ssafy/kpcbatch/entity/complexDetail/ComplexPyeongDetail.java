@@ -12,7 +12,6 @@ import javax.persistence.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "complexPyeongDetail")
 public class ComplexPyeongDetail {
 
     @Id
@@ -30,6 +29,11 @@ public class ComplexPyeongDetail {
     private int exclusiveRate;
 
     @OneToOne
-    @JoinColumn(name = "pyeongNo")
+    @JoinColumn(name = "articleStatistics_no")
     ArticleStatistics articleStatistics; // 매매호가
+
+    @OneToOne
+    @JoinColumn(name = "landPriceMaxByPtp_no")
+    LandPriceMaxByPtp landPriceMaxByPtp;
+
 }

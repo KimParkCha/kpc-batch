@@ -13,10 +13,10 @@ import javax.persistence.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="complex")
 public class Complex {
     @Id
     Long complexNo;
+
     String complexName;
     Long cortarNo;
     String realEstateTypeCode;
@@ -36,6 +36,6 @@ public class Complex {
     String cortarAddress;
 
     @OneToOne
-    @JoinColumn(name = "complexNo")
+    @JoinColumn(name = "complexdetail_no")
     private ComplexDetail complexDetail;
 }

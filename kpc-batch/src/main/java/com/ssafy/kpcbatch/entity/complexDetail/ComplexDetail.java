@@ -3,17 +3,13 @@ package com.ssafy.kpcbatch.entity.complexDetail;
 import com.ssafy.kpcbatch.entity.complex.Complex;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="complexDetail")
 public class ComplexDetail {
     @Id
     private Long complexNo; // 아파트번호
@@ -61,5 +57,5 @@ public class ComplexDetail {
 
 
     @OneToOne(mappedBy = "complexDetail")
-    Complex complex;
+    private Complex complex;
 }
