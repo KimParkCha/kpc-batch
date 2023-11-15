@@ -63,7 +63,7 @@ public class ComplexDetailAPIJobConfiguration {
         return new JpaPagingItemReaderBuilder<Long>()
                 .queryString("select complexNo from Complex co")
                 .entityManagerFactory(entityManagerFactory)
-                .name("jdbcCursorItemReader")
+                .name("jdbcPagingItemReader")
                 .pageSize(1)
                 .build();
     }
