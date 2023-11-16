@@ -1,19 +1,16 @@
 package com.ssafy.kpcbatch.entity.complexDetail;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-@Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter @Setter
 public class LandPriceMaxByPtp { // 재산세
 
     @Id

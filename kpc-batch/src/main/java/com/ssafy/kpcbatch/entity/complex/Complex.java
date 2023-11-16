@@ -13,6 +13,7 @@ import javax.persistence.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+// 단지
 public class Complex {
     @Id
     Long complexNo;

@@ -1,17 +1,15 @@
 package com.ssafy.kpcbatch.entity.complexDetail;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.ssafy.kpcbatch.entity.complex.Complex;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter @Setter
 public class ComplexPyeongDetail {
 
     @Id
@@ -35,5 +33,10 @@ public class ComplexPyeongDetail {
     @OneToOne
     @JoinColumn(name = "landPriceMaxByPtp_no")
     LandPriceMaxByPtp landPriceMaxByPtp;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "complexDetail_no")
+//    private ComplexDetail complexDetail;
+
 
 }

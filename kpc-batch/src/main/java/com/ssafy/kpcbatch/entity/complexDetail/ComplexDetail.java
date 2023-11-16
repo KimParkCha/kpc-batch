@@ -4,12 +4,15 @@ import com.ssafy.kpcbatch.entity.complex.Complex;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter @Setter
+// 단지정보
 public class ComplexDetail {
     @Id
     private Long complexNo; // 아파트번호
@@ -58,4 +61,8 @@ public class ComplexDetail {
 
     @OneToOne(mappedBy = "complexDetail")
     private Complex complex;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<ComplexPyeongDetail> complexPyeongDetails;
+
 }
