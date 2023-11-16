@@ -24,7 +24,13 @@ public class ComplexPyeongDetailWriter implements ItemWriter<ComplexDetailsDto> 
         List<ComplexPyeongDetailDto> complexPyeongDetails = items.get(0).getComplexPyeongDetailList();
 
         String sql = "INSERT INTO complex_pyeong_detail" +
-                "(pyeong_no) values (:pyeongNo)";
+                "(pyeong_no, supply_area_double, supply_area, pyeong_name, supply_pyeong," +
+                "pyeong_name2, exclusive_area, exclusive_pyeong, household_count_by_pyeong," +
+                "real_estate_type_code, exclusive_rate" +
+                ") values (:pyeongNo, :supplyAreaDouble, :supplyArea, :pyeongName, :supplyPyeong," +
+                ":pyeongName2, :exclusiveArea, :exclusivePyeong, :householdCountByPyeong," +
+                ":realEstateTypeCode, :exclusiveRate" +
+                ")";
 
         jdbcBatchItemWriter.setDataSource(dataSource);
         jdbcBatchItemWriter.setJdbcTemplate(new NamedParameterJdbcTemplate(dataSource));

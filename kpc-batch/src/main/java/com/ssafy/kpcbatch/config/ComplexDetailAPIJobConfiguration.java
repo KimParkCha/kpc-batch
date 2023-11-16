@@ -85,7 +85,7 @@ public class ComplexDetailAPIJobConfiguration {
     public CompositeItemWriter<ComplexDetailsDto> compositeComplexDetailItemWriter() {
         List<ItemWriter> delegates = new ArrayList<>(1);
         delegates.add(new ComplexDetailWriter(dataSource, new JdbcBatchItemWriter()));
-        delegates.add(new ComplexPyeongDetailWriter(dataSource, new JdbcBatchItemWriter()));
+//        delegates.add(new ComplexPyeongDetailWriter(dataSource, new JdbcBatchItemWriter()));
 
         CompositeItemWriter compositeItemWriter = new CompositeItemWriter();
         compositeItemWriter.setDelegates(delegates);
