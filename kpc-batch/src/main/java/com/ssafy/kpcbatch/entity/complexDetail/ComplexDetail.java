@@ -48,7 +48,7 @@ public class ComplexDetail {
     private String constructionCompanyName; // 건설사
     private String heatMethodTypeCode; //난방
     private String heatFuelTypeCode;
-    @Column(length = 512)
+    @Column(length = 2048)
     private String pyoengNames;
     private String managementOfficeTelNo;
     private String buildingRegister;
