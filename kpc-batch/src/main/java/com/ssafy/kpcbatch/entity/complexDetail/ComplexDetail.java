@@ -32,7 +32,7 @@ public class ComplexDetail {
     private Integer etcLeaseHouseholdCount;
     private Integer highFloor;
     private Integer lowFloor;
-    private String useApprovueYmd;
+    private String useApproveYmd;
     private Integer totalDongCount;
     private Float maxSupplyArea;
     private Float minSupplyArea;
