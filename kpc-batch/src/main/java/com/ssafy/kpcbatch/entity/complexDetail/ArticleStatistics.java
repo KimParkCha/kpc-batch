@@ -38,7 +38,11 @@ public class ArticleStatistics {
     String leasePriceString;
     String leasePricePerSpaceString;
     String leasePriceRateString;
-
+    String rentPriceString;
+    String rentDepositPriceMin;
+    String rentPriceMin;
+    String rentDepositPriceMax;
+    String rentPriceMax;
     @OneToOne(mappedBy = "articleStatistics")
     ComplexPyeongDetail complexPyeongDetail;
 

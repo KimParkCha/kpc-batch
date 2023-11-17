@@ -10,7 +10,7 @@ import lombok.ToString;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GrandPlanDto {
-    Long imageId;
+    String imageId;
     Integer imageOrder;
     String imageSrc;
     String imageType;

@@ -12,5 +12,5 @@ import java.util.List;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GrandPlanListDto {
-    List<GrandPlanDto> grandPlanDtos;
+
 }

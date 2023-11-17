@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -22,12 +24,12 @@ public class ComplexPyeongDetailDto {
     String householdCountByPyeong;
     String realEstateTypeCode;
     String exclusiveRate;
-    GrandPlanListDto grandPlanListDto;
-    MaintenanceCostListDto maintenanceCostListDto;
-    AverageMaintenanceCostDto averageMaintenanceCostDto;
-    ArticleStatisticsDto articleStatisticsDto;
+    List<GrandPlanDto> grandPlanList;
+    List<MaintenanceCostDto> maintenanceCostList;
+    AverageMaintenanceCostDto averageMaintenanceCost;
+    ArticleStatisticsDto articleStatistics;
     String entranceType;
-    LandPriceMaxByPtpDto landPriceMaxByPtpDto;
+    LandPriceMaxByPtpDto landPriceMaxByPtp;
     String roomCnt;
     String bathroomCnt;
     String articleStatisticsNo;
