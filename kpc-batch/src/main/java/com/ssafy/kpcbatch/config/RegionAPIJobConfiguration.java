@@ -51,7 +51,7 @@ public class RegionAPIJobConfiguration {
         return jobBuilderFactory.get("regionJob")
 //                .preventRestart()
                 .start(regionStep)
-                .start(complexStep())
+//                .start(complexStep())
                 .build();
     }
 

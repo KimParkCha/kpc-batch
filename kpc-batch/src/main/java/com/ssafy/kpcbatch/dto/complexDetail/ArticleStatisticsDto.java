@@ -10,6 +10,7 @@ import lombok.ToString;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ArticleStatisticsDto {
+    String complexNo;
     Integer pyeongNo;
     String dealCount;
     String leaseCount;

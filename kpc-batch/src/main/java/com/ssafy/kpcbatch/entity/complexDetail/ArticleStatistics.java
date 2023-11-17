@@ -5,21 +5,20 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@IdClass(ArticleStatistics.ArticleStatisticsPK.class)
 public class ArticleStatistics {
-
+    @Id
+    Long complexNo;
     @Id
     Integer pyeongNo;
-
     String dealCount;
     String leaseCount;
     String rentCount;
@@ -42,4 +41,8 @@ public class ArticleStatistics {
 
     @OneToOne(mappedBy = "articleStatistics")
     ComplexPyeongDetail complexPyeongDetail;
+
+    class ArticleStatisticsPK implements Serializable {
+        private Long complexNo;
+    }
 }

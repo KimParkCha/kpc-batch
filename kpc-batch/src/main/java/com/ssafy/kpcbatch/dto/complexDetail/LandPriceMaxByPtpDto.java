@@ -10,6 +10,7 @@ import lombok.ToString;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LandPriceMaxByPtpDto {
+    String complexNo;
     String ptpNo;
     String supplyArea;
     String totalArea;

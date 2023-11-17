@@ -10,6 +10,7 @@ import lombok.ToString;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ComplexPyeongDetailDto {
+    String complexNo;
     String pyeongNo;
     Float supplyAreaDouble;
     String supplyArea;
@@ -29,4 +30,6 @@ public class ComplexPyeongDetailDto {
     LandPriceMaxByPtpDto landPriceMaxByPtpDto;
     String roomCnt;
     String bathroomCnt;
+    String articleStatisticsNo;
+    String landPriceMaxByPtpNo;
 }

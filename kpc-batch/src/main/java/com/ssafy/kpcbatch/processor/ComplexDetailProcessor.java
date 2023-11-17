@@ -3,6 +3,7 @@ package com.ssafy.kpcbatch.processor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.kpcbatch.dto.complexDetail.ComplexDetailsDto;
+import com.ssafy.kpcbatch.dto.complexDetail.ComplexPyeongDetailDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.http.HttpEntity;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.List;
 
 
 @Slf4j
@@ -36,7 +39,15 @@ public class ComplexDetailProcessor implements ItemProcessor<Long, ComplexDetail
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         ComplexDetailsDto complexDetailsDto = objectMapper.readValue(response.getBody(), ComplexDetailsDto.class);
-
+        String complexNo = complexDetailsDto.getComplexDetail().getComplexNo();
+        List<ComplexPyeongDetailDto> ls = complexDetailsDto.getComplexPyeongDetailList();
+        ls.forEach(complexPyeongDetailDto -> {
+            complexPyeongDetailDto.setComplexNo(complexNo);
+            if (complexPyeongDetailDto.getArticleStatisticsDto() != null)
+            complexPyeongDetailDto.getArticleStatisticsDto().setComplexNo(complexNo);
+            if (complexPyeongDetailDto.getLandPriceMaxByPtpDto() != null)
+            complexPyeongDetailDto.getLandPriceMaxByPtpDto().setComplexNo(complexNo);
+        });
         log.info("receivedData: {}", complexDetailsDto);
         return complexDetailsDto;
     }

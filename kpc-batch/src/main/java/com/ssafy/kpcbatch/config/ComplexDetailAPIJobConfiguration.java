@@ -2,8 +2,10 @@ package com.ssafy.kpcbatch.config;
 
 import com.ssafy.kpcbatch.dto.complexDetail.ComplexDetailsDto;
 import com.ssafy.kpcbatch.processor.ComplexDetailProcessor;
+import com.ssafy.kpcbatch.writer.ArticleStatisticsWriter;
 import com.ssafy.kpcbatch.writer.ComplexDetailWriter;
 import com.ssafy.kpcbatch.writer.ComplexPyeongDetailWriter;
+import com.ssafy.kpcbatch.writer.LandPriceMaxByPtpWriter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -83,9 +85,12 @@ public class ComplexDetailAPIJobConfiguration {
 
     @StepScope
     public CompositeItemWriter<ComplexDetailsDto> compositeComplexDetailItemWriter() {
-        List<ItemWriter> delegates = new ArrayList<>(1);
+        List<ItemWriter> delegates = new ArrayList<>(3);
         delegates.add(new ComplexDetailWriter(dataSource, new JdbcBatchItemWriter()));
-//        delegates.add(new ComplexPyeongDetailWriter(dataSource, new JdbcBatchItemWriter()));
+        delegates.add(new ComplexPyeongDetailWriter(dataSource, new JdbcBatchItemWriter()));
+        delegates.add(new ArticleStatisticsWriter(dataSource, new JdbcBatchItemWriter()));
+
+
 
         CompositeItemWriter compositeItemWriter = new CompositeItemWriter();
         compositeItemWriter.setDelegates(delegates);

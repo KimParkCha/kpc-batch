@@ -7,18 +7,22 @@ import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.OneToOne;
+import java.io.Serializable;
 
 @Entity
 @Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@IdClass(LandPriceMaxByPtp.LandPriceMaxByPtpPK.class)
 public class LandPriceMaxByPtp { // 재산세
 
     @Id
     String ptpNo;
-
+    @Id
+    Long complexNo;
     private String supplyArea;
     private String totalArea;
     private String minPrice;
@@ -38,4 +42,7 @@ public class LandPriceMaxByPtp { // 재산세
     @OneToOne(mappedBy = "landPriceMaxByPtp")
     ComplexPyeongDetail complexPyeongDetail;
 
+    class LandPriceMaxByPtpPK implements Serializable {
+        private Long complexNo;
+    }
 }
