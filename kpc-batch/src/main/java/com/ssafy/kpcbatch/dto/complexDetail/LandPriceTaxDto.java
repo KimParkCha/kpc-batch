@@ -10,11 +10,5 @@ import lombok.ToString;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LandPriceTaxDto {
-    Integer propertyTotalTax;
-    Integer propertyTax;
-    Integer localEduTax;
-    Integer cityAreaTax;
-    Integer realEstateTotalTax;
-    Integer decisionTax;
-    Integer ruralSpecialTax;
+
 }

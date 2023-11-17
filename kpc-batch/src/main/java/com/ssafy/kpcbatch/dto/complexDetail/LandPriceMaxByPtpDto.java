@@ -18,5 +18,13 @@ public class LandPriceMaxByPtpDto {
     String maxPrice;
     Integer stdYear;
     String stdYmd;
-    public LandPriceTaxDto landPriceTax;
+
+    // landPriceTax
+    Integer propertyTotalTax;
+    Integer propertyTax;
+    Integer localEduTax;
+    Integer cityAreaTax;
+    Integer realEstateTotalTax;
+    Integer decisionTax;
+    Integer ruralSpecialTax;
 }
