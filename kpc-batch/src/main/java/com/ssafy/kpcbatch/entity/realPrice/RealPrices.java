@@ -21,6 +21,4 @@ public class RealPrices {
     Integer totalRowCount;
     String realPriceBasisYearMonth;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    List<RealPriceOnMonth> realPriceOnMonths;
 }

@@ -1,6 +1,8 @@
 package com.ssafy.kpcbatch.entity.complex;
 
 import com.ssafy.kpcbatch.entity.complexDetail.ComplexDetail;
+import com.ssafy.kpcbatch.entity.realPrice.RealPrice;
+import com.ssafy.kpcbatch.entity.realPrice.RealPriceOnMonth;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -39,4 +41,8 @@ public class Complex {
     @OneToOne
     @JoinColumn(name = "complexdetail_no")
     private ComplexDetail complexDetail;
+
+    @OneToOne
+    @JoinColumn(name = "realprice_no")
+    private RealPriceOnMonth realPriceOnMonth;
 }

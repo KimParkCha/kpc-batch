@@ -2,6 +2,7 @@ package com.ssafy.kpcbatch.entity.realPrice;
 
 import com.ssafy.kpcbatch.dto.realPrice.RealPriceDto;
 import com.ssafy.kpcbatch.dto.realPrice.RealPriceOnMonthDto;
+import com.ssafy.kpcbatch.entity.complex.Complex;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.List;
 public class RealPriceOnMonth {
 
     @Id @GeneratedValue
-    Long areaNo;
+    Long realpriceonmonthNo;
 
     String tradeBaseYear;
     Integer tradeBaseMonth;
@@ -25,5 +26,7 @@ public class RealPriceOnMonth {
     @OneToMany(cascade = CascadeType.ALL)
     List<RealPrice> realPrices;
 
+    @OneToOne(mappedBy = "realPriceOnMonth")
+    Complex complex;
 
 }
