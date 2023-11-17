@@ -24,7 +24,7 @@ public class ComplexDetailWriter implements ItemWriter<ComplexDetailsDto> {
     @Override
     public void write(List<? extends ComplexDetailsDto> items) throws Exception {
         List<ComplexDetailDto> complexDetails = new ArrayList<>();
-//        complexDetails.add(items.get(0).getComplexDetail());
+        complexDetails.add(items.get(0).getComplexDetail());
 
         String sql = "INSERT INTO complex_detail" +
                 "(complex_no, complex_name, cortar_no, real_estate_type_code, real_estate_type_name," +
@@ -35,8 +35,7 @@ public class ComplexDetailWriter implements ItemWriter<ComplexDetailsDto> {
                 "max_supply_area, min_supply_area, deal_count, rent_count, lease_count, short_term_rent_count," +
                 "is_bookmarked, batl_ratio, btl_ratio, parking_possible_count, parking_count_by_household," +
                 "construction_company_name, heat_method_type_code, heat_fuel_type_code, pyoeng_names," +
-                "management_office_tel_no, building_register, address, road_address_prefix, road_zip_code, article_statistics_no, land_price_max_by_ptp_no) values" +
-
+                "management_office_tel_no, building_register, address, road_address_prefix, road_zip_code) values" +
                 "(:complexNo, :complexName, :cortarNo, :realEstateTypeCode, :realEstateTypeName," +
                 ":detailAddress, :roadAddress, :latitude, :longitude, :totalHouseholdCount," +
                 ":totalLeaseHouseholdCount, :permanentLeaseHouseholdCount, :nationLeaseHouseholdCount," +
@@ -45,7 +44,7 @@ public class ComplexDetailWriter implements ItemWriter<ComplexDetailsDto> {
                 ":maxSupplyArea, :minSupplyArea, :dealCount, :rentCount, :leaseCount, :shortTermRentCount," +
                 ":isBookmarked, :batlRatio, :btlRatio, :parkingPossibleCount, :parkingCountByHousehold," +
                 ":constructionCompanyName, :heatMethodTypeCode, :heatFuelTypeCode, :pyoengNames," +
-                ":managementOfficeTelNo, :buildingRegister, :address, :roadAddressPrefix, :roadZipCode, :articleStatisticsNo, :landPriceMaxByPtpNo)";
+                ":managementOfficeTelNo, :buildingRegister, :address, :roadAddressPrefix, :roadZipCode)";
 
         jdbcBatchItemWriter.setDataSource(dataSource);
         jdbcBatchItemWriter.setJdbcTemplate(new NamedParameterJdbcTemplate(dataSource));

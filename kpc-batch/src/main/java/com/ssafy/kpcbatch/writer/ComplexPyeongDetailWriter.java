@@ -28,7 +28,7 @@ public class ComplexPyeongDetailWriter implements ItemWriter<ComplexDetailsDto> 
     public void write(List<? extends ComplexDetailsDto> items) throws Exception {
         List<ComplexDetailDto> complexDetails = new ArrayList<>();
         List<ComplexPyeongDetailDto> complexPyeongDetailDtos = items.get(0).getComplexPyeongDetailList();
-        log.info("complexPyeongDetailsDto : {}", complexPyeongDetailDtos);
+
         String sql = "INSERT INTO complex_pyeong_detail" +
                 "(complex_no, pyeong_no, supply_area_double, supply_area, pyeong_name, supply_pyeong," +
                 "pyeong_name2, exclusive_area, exclusive_pyeong, household_count_by_pyeong," +

@@ -48,5 +48,6 @@ public class ArticleStatistics {
 
     class ArticleStatisticsPK implements Serializable {
         private Long complexNo;
+        private Integer pyeongNo;
     }
 }
