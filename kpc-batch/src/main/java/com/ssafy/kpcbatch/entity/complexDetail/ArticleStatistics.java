@@ -1,19 +1,16 @@
 package com.ssafy.kpcbatch.entity.complexDetail;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @IdClass(ArticleStatistics.ArticleStatisticsPK.class)
+@Getter @Setter
 public class ArticleStatistics {
     @Id
     Long complexNo;

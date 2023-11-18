@@ -1,19 +1,17 @@
 package com.ssafy.kpcbatch.entity.complexDetail;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.ssafy.kpcbatch.entity.complex.Complex;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @IdClass(ComplexPyeongDetail.ComplexPyeongDetailPK.class)
+@Getter @Setter
 public class ComplexPyeongDetail {
     @Id
     private Long complexNo;
@@ -43,3 +41,8 @@ public class ComplexPyeongDetail {
         private Long pyeongNo;
     }
 }
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "complexDetail_no")
+//    private ComplexDetail complexDetail;
+
+
