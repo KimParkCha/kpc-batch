@@ -29,11 +29,13 @@ public class ComplexPyeongDetail {
     private int exclusiveRate;
 
     @OneToOne
-    @JoinColumn()
+    @JoinColumn(name = "complexNo", insertable = false, updatable = false)
+    @JoinColumn(name = "pyeongNo", insertable = false, updatable = false)
     ArticleStatistics articleStatistics; // 매매호가
 
     @OneToOne
-    @JoinColumn()
+    @JoinColumn(name = "complexNo", insertable = false, updatable = false)
+    @JoinColumn(name = "pyeongNo", insertable = false, updatable = false)
     LandPriceMaxByPtp landPriceMaxByPtp;
 
     class ComplexPyeongDetailPK implements Serializable {

@@ -43,10 +43,10 @@ public class ComplexDetailProcessor implements ItemProcessor<Long, ComplexDetail
         List<ComplexPyeongDetailDto> ls = complexDetailsDto.getComplexPyeongDetailList();
         ls.forEach(complexPyeongDetailDto -> {
             complexPyeongDetailDto.setComplexNo(complexNo);
-            if (complexPyeongDetailDto.getArticleStatisticsDto() != null)
-            complexPyeongDetailDto.getArticleStatisticsDto().setComplexNo(complexNo);
-            if (complexPyeongDetailDto.getLandPriceMaxByPtpDto() != null)
-            complexPyeongDetailDto.getLandPriceMaxByPtpDto().setComplexNo(complexNo);
+            if (complexPyeongDetailDto.getArticleStatistics() != null)
+            complexPyeongDetailDto.getArticleStatistics().setComplexNo(complexNo);
+            if (complexPyeongDetailDto.getLandPriceMaxByPtp() != null)
+            complexPyeongDetailDto.getLandPriceMaxByPtp().setComplexNo(complexNo);
         });
         log.info("receivedData: {}", complexDetailsDto);
         return complexDetailsDto;

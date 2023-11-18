@@ -17,7 +17,7 @@ import java.io.Serializable;
 public class LandPriceMaxByPtp { // 재산세
 
     @Id
-    String ptpNo;
+    Long ptpNo;
     @Id
     Long complexNo;
     private String supplyArea;
@@ -41,5 +41,6 @@ public class LandPriceMaxByPtp { // 재산세
 
     class LandPriceMaxByPtpPK implements Serializable {
         private Long complexNo;
+        Long ptpNo;
     }
 }

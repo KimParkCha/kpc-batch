@@ -11,7 +11,7 @@ import lombok.ToString;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ArticleStatisticsDto {
     String complexNo;
-    Integer pyeongNo;
+    String pyeongNo;
     String dealCount;
     String leaseCount;
     String rentCount;
@@ -31,4 +31,9 @@ public class ArticleStatisticsDto {
     String leasePriceString;
     String leasePricePerSpaceString;
     String leasePriceRateString;
+    String rentPriceString;
+    String rentDepositPriceMin;
+    String rentPriceMin;
+    String rentDepositPriceMax;
+    String rentPriceMax;
 }

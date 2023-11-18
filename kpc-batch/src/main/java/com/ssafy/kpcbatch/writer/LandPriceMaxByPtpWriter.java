@@ -1,9 +1,6 @@
 package com.ssafy.kpcbatch.writer;
 
-import com.ssafy.kpcbatch.dto.complexDetail.ComplexDetailDto;
-import com.ssafy.kpcbatch.dto.complexDetail.ComplexDetailsDto;
-import com.ssafy.kpcbatch.dto.complexDetail.ComplexPyeongDetailDto;
-import com.ssafy.kpcbatch.dto.complexDetail.LandPriceMaxByPtpDto;
+import com.ssafy.kpcbatch.dto.complexDetail.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
@@ -24,29 +21,32 @@ public class LandPriceMaxByPtpWriter implements ItemWriter<ComplexDetailsDto> {
         this.jdbcBatchItemWriter = jdbcBatchItemWriter;
     }
 
+
     @Override
     public void write(List<? extends ComplexDetailsDto> items) throws Exception {
-//        List<ComplexDetailDto> complexDetails = new ArrayList<>();
-//
-//
-//        String sql = "INSERT INTO land_price_max_by_ptp" +
-//                "(pyeong_no, deal_count, lease_count, rent_count, short_term_rent_count," +
-//                "deal_price_min, deal_price_max, lease_price_min, lease_price_max," +
-//                "deal_price_per_space_min, deal_price_per_space_max, lease_price_per_space_min, lease_price_per_space_string" +
-//                "lease_price_per_space_max, lease_price_rate_min, lease_price_rate_max, deal_price_string" +
-//                "deal_price_per_space_string, lease_price_string, lease_price_per_space_string, lease_price_rate_string" +
-//                ") values (:pyeongNo, :dealCount, :leaseCount, :rentCount, :shortTermRentCount," +
-//                ":dealPriceMin, :dealPriceMax, :leasePriceMin, :leasePriceMax," +
-//                ":dealPricePerSpaceMin, :dealPricePerSpaceMax, :leasePricePerSpaceMin, :leasePricePerSpaceString" +
-//                ":leasePricePerSpaceMax, :leasePriceRateMin, :leasePriceRateMax, :dealPriceString" +
-//                ":dealPricePerSpaceString, :leasePriceString, :leasePricePerSpaceString, :leasePriceRateString" +
-//                ")";
-//
-//        jdbcBatchItemWriter.setDataSource(dataSource);
-//        jdbcBatchItemWriter.setJdbcTemplate(new NamedParameterJdbcTemplate(dataSource));
-//        jdbcBatchItemWriter.setSql(sql);
-//        jdbcBatchItemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider());
-//        jdbcBatchItemWriter.afterPropertiesSet();
-//        jdbcBatchItemWriter.write(complexPyeongDetails);
+        List<ComplexDetailDto> complexDetails = new ArrayList<>();
+        List<ComplexPyeongDetailDto> complexPyeongDetailDtos = items.get(0).getComplexPyeongDetailList();
+        List<LandPriceMaxByPtpDto> ls = new ArrayList<>();
+        complexPyeongDetailDtos.forEach(complexPyeongDetailDto -> {
+            if (complexPyeongDetailDto.getLandPriceMaxByPtp() != null)
+                ls.add(complexPyeongDetailDto.getLandPriceMaxByPtp());
+        });
+        if (!ls.isEmpty()) {
+            log.info("complexPyeongDetailDto : {}", ls);
+            String sql = "INSERT INTO land_price_max_by_ptp" +
+                    "(complex_no, ptp_no, city_area_tax, decision_tax, local_edu_tax," +
+                    "max_price, min_price, property_tax, property_total_tax," +
+                    "real_estate_total_tax, rural_special_tax, std_year, std_ymd, supply_area, total_area" +
+                    ") values (:complexNo, :ptpNo, :cityAreaTax, :decisionTax," +
+                    ":localEduTax, :maxPrice, :minPrice, :propertyTax, :propertyTotalTax," +
+                    ":realEstateTotalTax, :ruralSpecialTax, :stdYear, :stdYmd, :supplyArea, :totalArea)";
+
+            jdbcBatchItemWriter.setDataSource(dataSource);
+            jdbcBatchItemWriter.setJdbcTemplate(new NamedParameterJdbcTemplate(dataSource));
+            jdbcBatchItemWriter.setSql(sql);
+            jdbcBatchItemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider());
+            jdbcBatchItemWriter.afterPropertiesSet();
+            jdbcBatchItemWriter.write(ls);
+        }
     }
 }

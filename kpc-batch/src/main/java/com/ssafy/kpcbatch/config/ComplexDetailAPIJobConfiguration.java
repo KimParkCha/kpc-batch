@@ -85,10 +85,11 @@ public class ComplexDetailAPIJobConfiguration {
 
     @StepScope
     public CompositeItemWriter<ComplexDetailsDto> compositeComplexDetailItemWriter() {
-        List<ItemWriter> delegates = new ArrayList<>(3);
+        List<ItemWriter> delegates = new ArrayList<>(4);
         delegates.add(new ComplexDetailWriter(dataSource, new JdbcBatchItemWriter()));
         delegates.add(new ComplexPyeongDetailWriter(dataSource, new JdbcBatchItemWriter()));
         delegates.add(new ArticleStatisticsWriter(dataSource, new JdbcBatchItemWriter()));
+        delegates.add(new LandPriceMaxByPtpWriter(dataSource, new JdbcBatchItemWriter()));
 
 
 
