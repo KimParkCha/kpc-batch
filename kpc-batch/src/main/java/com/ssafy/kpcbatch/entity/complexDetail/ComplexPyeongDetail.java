@@ -43,8 +43,3 @@ public class ComplexPyeongDetail {
         private Long pyeongNo;
     }
 }
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "complexDetail_no")
-//    private ComplexDetail complexDetail;
-
-

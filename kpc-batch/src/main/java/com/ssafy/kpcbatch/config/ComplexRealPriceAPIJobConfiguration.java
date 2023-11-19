@@ -1,6 +1,8 @@
 package com.ssafy.kpcbatch.config;
 
+import com.ssafy.kpcbatch.dto.realPrice.RealPriceOnMonthDto;
 import com.ssafy.kpcbatch.entity.complex.Complex;
+import com.ssafy.kpcbatch.entity.realPrice.RealPrice;
 import com.ssafy.kpcbatch.processor.ComplexProcessor;
 import com.ssafy.kpcbatch.processor.ComplexRealPriceProcessor;
 import com.ssafy.kpcbatch.writer.JpaItemListWriter;
@@ -43,7 +45,7 @@ public class ComplexRealPriceAPIJobConfiguration {
     public Step complexRealPriceStep() {
         return stepBuilderFactory.get("complexRealPriceStep")
                 .allowStartIfComplete(true)
-                .<Long, List<Complex>>chunk(1)
+                .<Long, List<RealPrice>>chunk(1)
                 .reader(complexRealPriceReader())
                 .processor(complexRealPriceProcessor())
                 .writer(complexRealPriceWriter())
@@ -63,13 +65,13 @@ public class ComplexRealPriceAPIJobConfiguration {
     }
 
     @StepScope
-    public ItemProcessor<Long, List<Complex>>complexRealPriceProcessor() {
+    public ItemProcessor<Long, List<RealPrice>>complexRealPriceProcessor() {
         // 가져온 데이터를 적절히 가공해준다.
         return new ComplexRealPriceProcessor(restUrl, new RestTemplate());
     }
     @StepScope
-    public JpaItemListWriter<Complex> complexRealPriceWriter() {
-        final JpaItemWriter<Complex> itemListWriter = new JpaItemWriter<>();
+    public JpaItemListWriter<RealPrice> complexRealPriceWriter() {
+        final JpaItemWriter<RealPrice> itemListWriter = new JpaItemWriter<>();
         itemListWriter.setEntityManagerFactory(entityManagerFactory);
 
         return new JpaItemListWriter<>(itemListWriter);

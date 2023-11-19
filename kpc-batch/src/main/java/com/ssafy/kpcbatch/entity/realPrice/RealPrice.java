@@ -1,20 +1,19 @@
 package com.ssafy.kpcbatch.entity.realPrice;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter @Setter
+@Builder
 public class RealPrice {
-
-    @Id @GeneratedValue
-    @Column(name = "realpriceNo")
+    Long complexNo;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long realPriceNo;
 
     String tradeYear;
@@ -27,5 +26,4 @@ public class RealPrice {
     Float exclusiveArea;
     String formattedPricce;
     String formattedTradeYearMonth;
-
 }
