@@ -22,12 +22,11 @@ import java.util.List;
 
 @Slf4j
 public class RegionReader implements ItemReader {
-    private final String apiUrl;
+    private final String apiUrl = "https://new.land.naver.com/api/regions/list";
     private final RestTemplate restTemplate;
     private List<RegionDto> regionDtos;
     private int regionIndex;
-    public RegionReader(String apiUrl, RestTemplate restTemplate) {
-        this.apiUrl = apiUrl;
+    public RegionReader(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 

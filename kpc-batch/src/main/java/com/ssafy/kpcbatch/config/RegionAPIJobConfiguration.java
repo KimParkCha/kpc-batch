@@ -44,7 +44,7 @@ public class RegionAPIJobConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
-    private final DataSource dataSource;
+    private final RestTemplate restTemplate;
 
     @Bean
     public Job regionJob(Step regionStep) { // 이런식으로 의존성 주입을 받을 수도 있구나
@@ -57,21 +57,20 @@ public class RegionAPIJobConfiguration {
 
     @Bean
     @JobScope
-    public Step regionStep(ItemReader<RegionDto> reader, JpaItemWriter<Region> writer) {
+    public Step regionStep() {
         return stepBuilderFactory.get("regionStep")
                 .allowStartIfComplete(true) // Complete 상태가 되었어도 다시 실행
                 .<RegionDto, Region>chunk(1)
-                .reader(reader)
+                .reader(regionReader())
                 .processor(regionProcessor())
-                .writer(writer)
+                .writer(regionWriter())
                 .build();
     }
 
     @Bean
-    public ItemReader<RegionDto> regionReader(Environment environment, RestTemplate restTemplate) {
+    public ItemReader<RegionDto> regionReader() {
         // Rest API 로 데이터를 가져온다.
-        return new RegionReader(environment.getRequiredProperty(PROPERTY_REST_API_URL),
-                restTemplate);
+        return new RegionReader(restTemplate);
     }
 
     @Bean
