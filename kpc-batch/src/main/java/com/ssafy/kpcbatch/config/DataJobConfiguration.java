@@ -49,7 +49,7 @@ public class DataJobConfiguration {
 
 
     @Bean
-    public Job dataJob(Step dataStep) { // 이런식으로 의존성 주입을 받을 수도 있구나
+    public Job dataJob() {
         return jobBuilderFactory.get("dataJob")
 //                .preventRestart()
                 .start(regionAPIJobConfiguration.regionStep())
