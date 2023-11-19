@@ -71,7 +71,6 @@ public class RegionReader implements ItemReader {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         RegionListDto regionListDto = objectMapper.readValue(response.getBody(), RegionListDto.class);
 
-//        log.info("receive 시 Data : {}", regionListDto.getRegionList());
         for (RegionDto region: regionListDto.getRegionList()) {
             ls.add(region);
             uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
@@ -79,7 +78,9 @@ public class RegionReader implements ItemReader {
             response = restTemplate.exchange(uriBuilder.toUriString(), HttpMethod.GET,
                     new HttpEntity<>(headers), String.class);
             RegionListDto regionListDto2 = objectMapper.readValue(response.getBody(), RegionListDto.class);
-//            log.info("receive 군 Data : {}", regionListDto2.getRegionList());
+            regionListDto2.getRegionList().forEach(regionDto -> {
+                regionDto.setCortarName(region.getCortarName() + " " + regionDto.getCortarName());
+            });
             for (RegionDto region2 : regionListDto2.getRegionList()) {
                 ls.add(region2);
                 uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
@@ -87,7 +88,9 @@ public class RegionReader implements ItemReader {
                 response = restTemplate.exchange(uriBuilder.toUriString(), HttpMethod.GET,
                         new HttpEntity<>(headers), String.class);
                 RegionListDto regionListDto3 = objectMapper.readValue(response.getBody(), RegionListDto.class);
-//                log.info("receive 구 Data : {}", regionListDto3.getRegionList());
+                regionListDto3.getRegionList().forEach(regionDto -> {
+                    regionDto.setCortarName(region2.getCortarName() + " " + regionDto.getCortarName());
+                });
                 ls.addAll(regionListDto3.getRegionList());
 
             }
