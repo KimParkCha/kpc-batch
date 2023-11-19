@@ -53,10 +53,10 @@ public class DataJobConfiguration {
         return jobBuilderFactory.get("dataJob")
 //                .preventRestart()
                 .start(regionAPIJobConfiguration.regionStep())
-                .start(complexAPIJobConfiguration.complexStep())
-                .start(complexDetailAPIJobConfiguration.complexDetailStep())
-                .start(complexPropertyAPIJobConfiguration.complexPropertyStep())
-                .start(complexRealPriceAPIJobConfiguration.complexRealPriceStep())
+                .next(complexAPIJobConfiguration.complexStep())
+                .next(complexDetailAPIJobConfiguration.complexDetailStep())
+                .next(complexPropertyAPIJobConfiguration.complexPropertyStep())
+                .next(complexRealPriceAPIJobConfiguration.complexRealPriceStep())
                 .build();
     }
 
