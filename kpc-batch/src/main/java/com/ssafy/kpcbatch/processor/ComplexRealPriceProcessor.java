@@ -41,26 +41,30 @@ public class ComplexRealPriceProcessor implements ItemProcessor<Long, List<RealP
 
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        RealPricesDto realPricesDto = objectMapper.readValue(response.getBody(), RealPricesDto.class);
-
         List<RealPrice> list = new ArrayList<>();
-        realPricesDto.getRealPriceOnMonthList().forEach(realPriceOnMonthDto -> {
-            realPriceOnMonthDto.getRealPriceList().forEach(realPriceDto -> {
-                RealPrice realPrice = RealPrice.builder()
-                        .complexNo(item)
-                        .tradeYear(realPriceDto.getTradeYear())
-                        .tradeMonth(realPriceDto.getTradeMonth())
-                        .tradeType(realPriceDto.getTradeType())
-                        .dealPrice(realPriceDto.getDealPrice())
-                        .floor(realPriceDto.getFloor())
-                        .representativeArea(realPriceDto.getRepresentativeArea())
-                        .exclusiveArea(realPriceDto.getExclusiveArea())
-                        .formattedPricce(realPriceDto.getFormattedPricce())
-                        .formattedTradeYearMonth(realPriceDto.getFormattedTradeYearMonth())
-                        .build();
-                list.add(realPrice);
+        try {
+            RealPricesDto realPricesDto = objectMapper.readValue(response.getBody(), RealPricesDto.class);
+
+            realPricesDto.getRealPriceOnMonthList().forEach(realPriceOnMonthDto -> {
+                realPriceOnMonthDto.getRealPriceList().forEach(realPriceDto -> {
+                    RealPrice realPrice = RealPrice.builder()
+                            .complexNo(item)
+                            .tradeYear(realPriceDto.getTradeYear())
+                            .tradeMonth(realPriceDto.getTradeMonth())
+                            .tradeType(realPriceDto.getTradeType())
+                            .dealPrice(realPriceDto.getDealPrice())
+                            .floor(realPriceDto.getFloor())
+                            .representativeArea(realPriceDto.getRepresentativeArea())
+                            .exclusiveArea(realPriceDto.getExclusiveArea())
+                            .formattedPricce(realPriceDto.getFormattedPricce())
+                            .formattedTradeYearMonth(realPriceDto.getFormattedTradeYearMonth())
+                            .build();
+                    list.add(realPrice);
+                });
             });
-        });
+        } catch (Exception e) {
+            log.error("parse failed responseCode : {} responseBody : {}", response.getStatusCode(), response.getBody());
+        }
         return list;
     }
 }
